@@ -22,7 +22,7 @@ def fill_google_form():
     
 
     # page 1 
-    datasets = read_data_csv("TAM-data.csv")
+    datasets = read_data_csv("datanew-excel.csv")
     for i in tqdm(range(0, len(datasets.values))):
         chrome_options = Options()
         # chrome_options.add_argument("--disable-extensions")
@@ -31,8 +31,9 @@ def fill_google_form():
         chrome_options.add_argument("--headless=new") # for Chrome >= 109
         # chrome_options.add_argument("--headless")
         # chrome_options.headless = True # also works
-        driver = webdriver.Chrome(options=chrome_options)
-        form_url = 'https://docs.google.com/forms/d/e/1FAIpQLSdDCs4PawrJaQ-RscLJYeEUSxLOdpf4v5iU8BYTtbHNZtaBLA/viewform?usp=sf_link'
+        #driver = webdriver.Chrome(options=chrome_options)
+        driver = webdriver.Chrome()
+        form_url = 'https://docs.google.com/forms/d/e/1FAIpQLSdDCs4PawrJaQ-RscLJYeEUSxLOdpf4v5iU8BYTtbHNZtaBLA/formResponse'
 
         driver.get(form_url)
         
@@ -56,8 +57,9 @@ def fill_google_form():
         # First 
         first = datavalues[:6]
         second_half = datavalues[6:12] # next 6 elements
-        thirhd_half = datavalues[11:18] # next 6 elements
-        fourth_half = datavalues[18:24] # next 6 elements
+        thirhd_plus_half = datavalues[11:15] #4 elements
+        thirhd_half = datavalues[15:21] # next 6 elements
+        five_half = datavalues[21:27] # next 6 elements
 
        
         # print all 
@@ -71,6 +73,10 @@ def fill_google_form():
         next_button_con(driver)
 
         # page 3    
+        fill_form_4_rows(driver, thirhd_plus_half)
+        next_button_con(driver)
+
+        #
         fill_form_2_rows(driver, thirhd_half[:2])
         next_button_con(driver)
 
@@ -83,12 +89,11 @@ def fill_google_form():
         next_button_con(driver)
         
         # page 6 
-        fill_form_6_rows(driver, fourth_half)
+        fill_form_6_rows(driver, five_half)
         next_button_con(driver)
         # Close the browser window
         driver.quit()
         time.sleep(10)
-        
 
  
     
@@ -105,6 +110,15 @@ def next_button_con(driver):
     next_button.click()
 
 
+def fill_form_4_rows(driver, list_input):
+    list_input = [x + 1 for x in list_input]
+    for rows in range(2,9,2):
+        choice = list_input[0]
+        driver.find_element(By.XPATH, '//*[@id="mG61Hd"]/div[2]/div/div[2]/div[2]/div/div/div[2]/div/div[1]/div/div[{rows}]/span/div[{column}]/div/div/div[3]/div'.format(rows= rows, column=choice)).click()
+        list_input.pop(0)
+
+
+
 def fill_form_6_rows(driver, list_input):
 
 
@@ -114,7 +128,7 @@ def fill_form_6_rows(driver, list_input):
     # make all elment in list input + 1
     list_input = [x + 1 for x in list_input]
     
-    # data thi 1 2 3 4 5 6 
+    
         
     for rows in range(2,13,2):
         choice = list_input[0]
