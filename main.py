@@ -31,8 +31,8 @@ def fill_google_form():
         chrome_options.add_argument("--headless=new") # for Chrome >= 109
         # chrome_options.add_argument("--headless")
         # chrome_options.headless = True # also works
-        #driver = webdriver.Chrome(options=chrome_options)
-        driver = webdriver.Chrome()
+        driver = webdriver.Chrome(options=chrome_options)
+        #driver = webdriver.Chrome()
         form_url = 'https://docs.google.com/forms/d/e/1FAIpQLSdDCs4PawrJaQ-RscLJYeEUSxLOdpf4v5iU8BYTtbHNZtaBLA/formResponse'
 
         driver.get(form_url)
@@ -93,7 +93,7 @@ def fill_google_form():
         next_button_con(driver)
         # Close the browser window
         driver.quit()
-        time.sleep(10)
+        time.sleep(10) 
 
  
     
